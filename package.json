@@ -1,0 +1,22 @@
+{
+  "name": "radiooooo",
+  "version": "0.0.1",
+  "description": "radiooooo integration for spotify",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "radiooooo"
+  ],
+  "author": "Joe Longstreet",
+  "license": "ISC",
+  "dependencies": {
+    "opn": "^5.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.4.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0"
+  }
+}
