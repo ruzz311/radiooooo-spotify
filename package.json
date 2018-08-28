@@ -12,6 +12,7 @@
   "author": "Joe Longstreet",
   "license": "ISC",
   "dependencies": {
+    "needle": "^2.2.2",
     "opn": "^5.3.0"
   },
   "devDependencies": {
