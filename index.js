@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const inquirer = require('inquirer');
 const question = require('./lib/question');
 const spotify = require('./lib/spotify');
