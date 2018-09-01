@@ -12,14 +12,16 @@ async function run() {
   const { moods } = await inquirer.prompt(question.getMoods());
   const { decade } = await inquirer.prompt(question.getDecades());
 
-  ui.log.write(`Finding countries with ${util.humanJoin(moods)} music from the ${decade}'s...`);
+  ui.log.write(`Finding regions with ${util.humanJoin(moods)} music from the ${decade}'s...`);
 
-  const countries = await question.getCountries(decade, moods);
-  const { country } = await inquirer.prompt(countries);
+  const countryCodes = await r.getCountriesByFilters(moods, decade);
+  const regions = question.getRegions(countryCodes);
+  const { region } = await inquirer.prompt(regions);
+  const regionName = util.getRegionNameByRegionCode(region);
 
-  ui.log.write(`Searching radiooooo for ${util.humanJoin(moods)} songs from the ${decade}'s made in ${country}...`);
+  ui.log.write(`Searching radiooooo for ${util.humanJoin(moods)} songs from the ${decade}'s made in ${regionName}...`);
 
-  const songs = await r.getSongs(15, decade, country, moods);
+  const songs = await r.getSongsByRegion(15, moods, decade, region, countryCodes);
   if (!songs.length) throw new Error('Could not find songs matching your search critera.');
 
   const artists = [...new Set(songs.map(s => s.artists))];
@@ -35,7 +37,7 @@ async function run() {
   ui.log.write(`Found ${trackUris.length} matching tracks in spotify.`);
   if (!trackUris.length) throw new Error('Could not find any matching tracks in radiooooo.');
 
-  const { title, description } = util.createPlaylistMeta(songs, decade, country);
+  const { title, description } = util.createPlaylistMeta(songs, decade, regionName);
   ui.log.write(`Creating a spotify playlist named ${title}...`);
   const playlistId = await spotify.createPlaylist(title, description);
 
@@ -49,7 +51,7 @@ async function run() {
   try {
     await run();
   } catch (e) {
-    ui.log.write('Could not complete request :(');
+    ui.log.write('Failed :(');
     ui.log.write(e);
   }
 })();
