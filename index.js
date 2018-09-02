@@ -30,7 +30,7 @@ async function run() {
   ui.log.write('Searching spotify for tracks discovered from radiooooo...');
   const trackUris = await Promise.all(
     songs.map(
-      async song => spotify.getTrackUri(song.artists, song.title, song.album),
+      async song => spotify.getTrackUri(song.artists, song.title),
     ),
   );
 
