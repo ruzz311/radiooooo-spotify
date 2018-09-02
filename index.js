@@ -49,10 +49,5 @@ async function run() {
 }
 
 (async () => {
-  try {
-    await run();
-  } catch (e) {
-    ui.log.write('Failed :(');
-    ui.log.write(e);
-  }
+  await run();
 })();
