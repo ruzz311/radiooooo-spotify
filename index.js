@@ -27,6 +27,10 @@ async function run() {
   const artists = [...new Set(songs.map(s => s.artists))];
   ui.log.write(`Found ${songs.length} songs, including work from ${util.humanJoin(artists)}.`);
 
+  const { title, description } = util.createPlaylistMeta(songs, decade, regionName);
+  ui.log.write(`Creating a spotify playlist named ${title}...`);
+  const playlistId = await spotify.createPlaylist(title, description);
+
   ui.log.write('Searching spotify for tracks discovered from radiooooo...');
   const trackPromises = await Promise.all(
     songs.map(
@@ -38,14 +42,11 @@ async function run() {
   if (!trackUris.length) throw new Error('Could not find any matching tracks in radiooooo.');
   ui.log.write(`Found ${trackUris.length} matching tracks in spotify.`);
 
-  const { title, description } = util.createPlaylistMeta(songs, decade, regionName);
-  ui.log.write(`Creating a spotify playlist named ${title}...`);
-  const playlistId = await spotify.createPlaylist(title, description);
-
   ui.log.write(`Adding ${trackUris.length} tracks to spotify...`);
   await spotify.addTracksToPlaylist(playlistId, trackUris.filter(i => i));
 
   ui.log.write(`Success! Check spotify for your new playlist: ${title}`);
+  process.exit();
 }
 
 (async () => {
