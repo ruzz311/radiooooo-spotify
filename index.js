@@ -28,12 +28,14 @@ async function run() {
   ui.log.write(`Found ${songs.length} songs, including work from ${util.humanJoin(artists)}.`);
 
   ui.log.write('Searching spotify for tracks discovered from radiooooo...');
-  const trackUris = await Promise.all(
+  const trackPromises = await Promise.all(
     songs.map(
       async song => spotify.getTrackUri(song.artists, song.title),
     ),
   );
 
+  const trackUris = trackPromises.filter(i => i);
+  if (!trackUris.length) throw new Error('Could not find any matching tracks in radiooooo.');
   ui.log.write(`Found ${trackUris.length} matching tracks in spotify.`);
   if (!trackUris.length) throw new Error('Could not find any matching tracks in radiooooo.');
 
