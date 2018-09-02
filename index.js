@@ -21,7 +21,7 @@ async function run() {
 
   ui.log.write(`Searching radiooooo for ${util.humanJoin(moods)} songs from the ${decade}'s made in ${regionName}...`);
 
-  const songs = await r.getSongsByRegion(15, moods, decade, region, countryCodes);
+  const songs = await r.getSongsByRegion(24, moods, decade, region, countryCodes);
   if (!songs.length) throw new Error('Could not find songs matching your search critera.');
 
   const artists = [...new Set(songs.map(s => s.artists))];
@@ -37,7 +37,6 @@ async function run() {
   const trackUris = trackPromises.filter(i => i);
   if (!trackUris.length) throw new Error('Could not find any matching tracks in radiooooo.');
   ui.log.write(`Found ${trackUris.length} matching tracks in spotify.`);
-  if (!trackUris.length) throw new Error('Could not find any matching tracks in radiooooo.');
 
   const { title, description } = util.createPlaylistMeta(songs, decade, regionName);
   ui.log.write(`Creating a spotify playlist named ${title}...`);
