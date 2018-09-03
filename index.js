@@ -19,7 +19,7 @@ async function run() {
   const { region } = await inquirer.prompt(regions);
   const regionName = util.getRegionNameByRegionCode(region);
 
-  ui.log.write(`Searching radiooooo for ${util.humanJoin(moods)} songs from the ${decade}'s made in ${regionName}...`);
+  ui.log.write(`Searching radiooooo for ${util.humanJoin(moods)} songs from the ${decade}'s made in ${regionName}... (this could take a minute)`);
 
   const songs = await r.getSongsByRegion(24, moods, decade, region, countryCodes);
   if (!songs.length) throw new Error('Could not find songs matching your search critera.');
@@ -39,7 +39,7 @@ async function run() {
   );
 
   const trackUris = trackPromises.filter(i => i);
-  if (!trackUris.length) throw new Error('Could not find any matching tracks in radiooooo.');
+  if (!trackUris.length) throw new Error('Could not find any matching tracks in spotify.');
   ui.log.write(`Found ${trackUris.length} matching tracks in spotify.`);
 
   ui.log.write(`Adding ${trackUris.length} tracks to spotify...`);
