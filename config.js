@@ -1,7 +1,13 @@
+const result = require('dotenv').config();
 const ENV = process.env;
 
+if (result.error) {
+  throw result.error
+}
+
+
 const config = {
-  PORT: 8666,
+  PORT: ENV.PORT,
   SPOTIFY: {
     AUTH_SCOPE: 'playlist-modify-private ugc-image-upload',
     AUTH_TIMEOUT: 30000,
